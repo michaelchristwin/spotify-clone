@@ -6,8 +6,12 @@ import UserProvider from "@/providers/UserProvider";
 import ModalProvider from "@/providers/ModalProvider";
 import ToasterProvider from "@/providers/ToasterProvider";
 import getSongsByUserId from "@/actions/getSongsByUserId";
+import Player from "@/components/Player";
 
-const font = Figtree({ subsets: ["latin"] });
+const font = Figtree({
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata = {
   title: "Spotify",
@@ -23,13 +27,14 @@ export default async function RootLayout({
 }) {
   const userSongs = await getSongsByUserId();
   return (
-    <html lang="en">
-      <body className={font.className}>
+    <html lang="en" className={font.className}>
+      <body>
         <ToasterProvider />
         <SupabaseProvider>
           <UserProvider>
             <ModalProvider />
             <SideBar songs={userSongs}>{children}</SideBar>
+            <Player />
           </UserProvider>
         </SupabaseProvider>
       </body>
